@@ -9,8 +9,20 @@ namespace ClassicThemeTray
     static class Program
     {
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            if (args.Length == 1)
+            {
+                if (args[0] == "/enable") 
+                    SetSectionSecurity(DenyAccessSddl);
+                else if (args[0] == "/disable")
+                    SetSectionSecurity(AllowAccessSddl);
+                else if (args[0] == "/toggle")
+                    SetSectionSecurity(GetSectionSecurity() == DenyAccessSddl ? AllowAccessSddl : DenyAccessSddl);
+
+                return;
+            }
+
             Tray = new NotifyIcon { Visible = true };
             Tray.MouseClick += TrayOnMouseClick;
 
